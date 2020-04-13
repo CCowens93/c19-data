@@ -4,7 +4,7 @@ class Covid19 extends Component{
   render(){
     return(
       <div>
-
+          <p>Hello</p>
       </div>
     )
   }

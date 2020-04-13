@@ -2,16 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-require('./models/covid-19.js');
+require('./models/covid-19')
 
-const app = express();
+const app = express()
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/covid-19Db`);
+mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/covid-19`);
 
 app.use(bodyParser.json());
 
-require('./routes/covid-19.js')(app);
+
+require('./routes/covid-19')(app);
 
 
 if (process.env.NODE_ENV === 'production') {
@@ -25,7 +26,65 @@ if (process.env.NODE_ENV === 'production') {
   }
 
 
-const PORT = process.env.PORT || 5000;
+// app.use(express.urlencoded({extended: true}))
+
+
+// app.use(express.json())
+
+
+
+// app.use(express.static(`${__dirname}/client/build`))
+
+
+
+// app.use('/api/covid-19', dataRouter)
+
+
+// app.get('/*', (req, res) => {
+//     res.sendFile(`${__dirname}/client/build/index.html`)
+// })
+
+
+
+
+const PORT = process.env.PORT || 5000
+
+
 app.listen(PORT, () => {
-  console.log(`app running on port ${PORT}`)
-});
+    console.log(`App is listening on PORT ${PORT}`)
+})
+
+
+
+
+// const express = require('express');
+// const mongoose = require('mongoose');
+// const bodyParser = require('body-parser');
+
+// require('./models/covid-19.js');
+
+// const app = express();
+
+// mongoose.Promise = global.Promise;
+// mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/covid-19Db`);
+
+// app.use(bodyParser.json());
+
+// require('./routes/covid-19.js')(app);
+
+
+// if (process.env.NODE_ENV === 'production') {
+//     app.use(express.static('client/build'));
+  
+//     const path = require('path');
+//     app.get('*', (req,res) => {
+//         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+//     })
+  
+//   }
+
+
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`app running on port ${PORT}`)
+// });

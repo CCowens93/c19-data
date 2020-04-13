@@ -1,6 +1,8 @@
-const mongoose = require('./connection.js')
+const mongoose = require('mongoose');
+const {Schema} = mongoose;
 
-const dataSchema = new mongoose.Schema({
+
+const dataSchema = new Schema({
     country: String,
     confirmed: Number,
     recovered: Number,
@@ -10,18 +12,4 @@ const dataSchema = new mongoose.Schema({
     longitude: Number
 })
 
-const DataCollection = mongoose.model('Data', dataSchema)
-
-
-const getAllData = () => {
-    return DataCollection.find()
-}
-
-const getOneData = (dataId) => {
-    return DataCollection.findById(dataId)
-}
-
-module.exports ={
-    getAllData,
-    getOneData
-}
+mongoose.model('data', dataSchema);
