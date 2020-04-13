@@ -2,12 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+require('./models/covid-19.js');
+
 const app = express();
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/covid-19Db`);
 
 app.use(bodyParser.json());
+
+require('./routes/covid-19.js')(app);
 
 
 if (process.env.NODE_ENV === 'production') {
