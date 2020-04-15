@@ -5,27 +5,15 @@ import axios from 'axios'
 class Stats extends Component {
 
   state = {
-    dataList: [{
-      country: '',
-      confirmed: '',
-      recovered: '',
-      critical: '',
-      deaths: '',
-      latitude: '',
-      longitude: '',
-      dataList: []
-    }]
+    country: '',
+    confirmed:'',
+    recovered:'',
+    critical:'',
+    deaths:'',
+    latitude:'',
+    longitude:'',
+    postData: []
   }
-
-  // componentDidMount() {
-  //   axios.get(`/api/data`)
-  //     .then((response) => {
-  //       console.log(response)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }
 
   changeHandler = (event) => {
     const name = event.target.name;
@@ -40,8 +28,11 @@ class Stats extends Component {
   handleSubmit = (event) => {
     event.preventDefault()
     axios.post('/api/data', this.state)
+    
   }
-
+  
+  currentCountry = this.state.country
+  
 
   componentDidMount() {
     axios.get("https://covid-19-data.p.rapidapi.com/country", {
@@ -52,27 +43,29 @@ class Stats extends Component {
         "x-rapidapi-key": "712bf9e2e1msh66e6efc09c3da2cp176473jsnf55e3b889176"
       },
       params: {
-        format: undefined,
-        name: "Italy"
+        
+        name: this.currentCountry
       }
-
     })
+
       .then((response => {
-        this.setState({
-          dataList: response.data
-        })
+        this.setState({ postData: response.data})
+        console.log(response.data[0])
       }))
       .catch((error) => {
         console.log(error)
       })
   }
 
-  render() {
+    render() {
 
-    console.log(this.state.dataList[0])
+    let countryData = this.state.country
 
+    console.log(countryData)
 
-    const DataTable = this.state.dataList.map((dataList, i) => (
+    console.log(this.state.postData[0])
+    
+    const DataTable = this.state.postData.map((dataList, i) => (
       <tr key={i}>
         <td width={300} height={50}>{dataList.country} </td>
         <td width={300} height={50}>{dataList.confirmed}</td>
@@ -105,12 +98,26 @@ class Stats extends Component {
 
           </tbody>
         </table>
+      
+        <div>
+          <form onSubmit={this.handleSubmit}>
+            <select
+              name="country"
+              value={this.state.country}
+              onChange={this.changeHandler}>
+              <option value="" disable="true">Country</option>
+              <option value="Italy">Italy</option>
+              <option value="Ireland">Ireland</option>
+            </select>
 
+            <br></br>
+            <input
+              type="submit"
+              value="Submit"
+            />
 
-        <div className="dataForm">
-
+          </form>
         </div>
-
 
       </div>
     )
